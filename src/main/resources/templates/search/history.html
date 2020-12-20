@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ex3</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+</head>
+<body>
+
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item"><a href="/github/search">SEARCH GITHUB</a></li>
+    <li class="list-group-item"><a class="active" href="/github/history">SEARCH HISTORY</a></li>
+    <li class="list-group-item"><a href="/github/delete" onclick="return confirm('Are you sure you want to delete all history?');">HISTORY RESET</a></li>
+    <li class="list-group-item"><a href="/logout">LOGOUT</a></li>
+    </br>
+</ul>
+
+
+<div class="content">
+    <h3>POPULAR SEARCH HISTORY</h3>
+    <table class="table table-striped" width="100%" id="pop-search">
+        <tr>
+            <th>Serial</th>
+            <th>User Name</th>
+            <th>Search Count</th>
+        </tr>
+        <tr th:each="history,iterationStatus : ${searchHistories}">
+            <td th:text="${iterationStatus.count}">1</td>
+            <td><a target="_blank" th:href="${history.gitUrl}" th:text="${history.userName}"></a></td>
+            <td th:text="${history.searchCount}"></td>
+        </tr>
+    </table>
+
+</div>
+</body>
+</html>

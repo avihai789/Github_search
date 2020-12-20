@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ex3</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+</head>
+
+<script>
+    (function () {
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById("submit").addEventListener("click", function (e) {
+                e.preventDefault();
+                var uname = document.getElementById("uname").value;
+                var pwd = document.getElementById("pwd").value;
+                var unameAndPwd = {"uname" : uname, "pwd" : pwd};
+                fetch("/login", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(unameAndPwd)
+                })
+                    .then(res => res.json())
+                    .then(resp => {
+                        var message = resp.message;
+                        if (message === "success")
+                            window.location.href = "/";
+                        else {
+                            document.getElementById("message").innerHTML = resp.message;
+                        }
+                    })
+                    .catch(e => {
+                        document.getElementById("message").innerHTML = "Some error occurred!";
+                    });
+            });
+        });
+    })();
+</script>
+
+<body>
+
+<h2>Welcome to the Github Library</h2>
+<form th:action="@{/login}" method="post" modelAttribute="user">
+
+    <div class="alert alert-light" id="message">
+    </div>
+    <div class="form">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" class="form-control" placeholder="Enter Username" id="uname" name="username" required/>
+        </br>
+        <label for="pwd"><b>Password</b></label>
+        <input type="password" class="form-control" placeholder="Enter Password" id="pwd" name="password" required/>
+        </br>
+        <button id="submit" type="submit" class="btn btn-primary">Login</button>
+    </div>
+</form>
+
+</body>
+</html>
